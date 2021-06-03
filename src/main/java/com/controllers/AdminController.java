@@ -17,10 +17,10 @@ import java.util.Optional;
 public class AdminController {
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @GetMapping
     public String getUsers(ModelMap model) {
@@ -42,9 +42,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
-    public String getEdit(@ModelAttribute("user") User users, ModelMap modelMap) {
-        Optional<User> user = userRepository.findById(users.getId());
+    @GetMapping("/edit")
+    public String getEdit(@RequestParam Long id, ModelMap modelMap) {
+        Optional<User> user = userRepository.findById(id);
         modelMap.addAttribute("user", user);
         return "editUser";
     }
@@ -57,9 +57,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@ModelAttribute("user") User users) {
-        userRepository.deleteById(users.getId());
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam Long id) {
+        userRepository.deleteById(id);
         return "redirect:/admin";
     }
  }

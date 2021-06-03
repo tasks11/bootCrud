@@ -21,11 +21,12 @@
             <td th:utext="${user.id}">...</td>
             <td th:utext="${user.name}">...</td>
             <td th:utext="${user.password}">...</td>
-            <td th:each="role : ${user.roles}" th:text="${role.role}"></td>
-            <td><a th:href="@{/admin/edit/{id}(id=${user.id})}"
-                   class="btn btn-info editButton">Edit</a></td>
-            <td><a th:href="@{/admin/delete/{id}(id=${user.id})}"
-                   class="btn btn-danger deleteButton">Delete</a>
+            <td th:each="role : ${user.roles}" th:text="${role.role}">
+
+            </td>
+            <td><a th:href="@{/admin/edit(id=${user.id})}">Edit</a>
+            </td>
+            <td><a th:href="@{/admin/delete(id=${user.id})}">Delete</a>
             </td>
         </tr>
     </table>
