@@ -31,7 +31,7 @@ public class AdminController {
 
     @GetMapping("/add")
     public String addGet() {
-        return "addUser";
+        return "allUsers";
     }
 
     @PostMapping("/add")
