@@ -12,7 +12,7 @@ public class UserController {
     @GetMapping("/user")
     public String getUser(ModelMap model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("users", user);
+        model.addAttribute("user", user);
         return "user";
     }
 

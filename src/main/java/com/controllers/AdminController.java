@@ -1,10 +1,12 @@
 package com.controllers;
 
+import com.dto.UserDto;
 import com.model.Role;
 import com.model.User;
 import com.repository.RoleRepository;
 import com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +27,31 @@ public class AdminController {
     @GetMapping
     public String getUsers(ModelMap model) {
         Iterable<User> users = userRepository.findAll();
+        User autUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", users);
+        model.addAttribute("autUser", autUser);
         return "allUsers";
     }
 
     @GetMapping("/add")
-    public String addGet() {
+    public String addGet(ModelMap modelMap) {
+        modelMap.addAttribute("roles", roleRepository.findAll());
         return "allUsers";
     }
 
+//    @PostMapping("/add")
+//    public String addPost(@ModelAttribute("user") User user, @RequestParam String role,
+//                          @RequestParam String username) {
+//        Role role1 = new Role(role);
+//        user.setUserName(username);
+//        user.setRoles(Collections.singleton(role1));
+//        userRepository.save(user);
+//        return "redirect:/admin";
+//    }
+
     @PostMapping("/add")
-    public String addPost(@ModelAttribute("user") User user, @RequestParam String role) {
-        Role role1 = new Role(role);
-        user.setRoles(Collections.singleton(role1));
-        userRepository.save(user);
+    public String addPost(@ModelAttribute UserDto userDto) {
+        userRepository.save(userDto.dtoToUser(userDto));
         return "redirect:/admin";
     }
 
@@ -46,11 +59,11 @@ public class AdminController {
     public String getEdit(@RequestParam Long id, ModelMap modelMap) {
         Optional<User> user = userRepository.findById(id);
         modelMap.addAttribute("user", user);
-        return "editUser";
+        return "allUsers";
     }
 
     @PostMapping("/edit")
-    public String editPage(@ModelAttribute("user") User user, @RequestParam String role) {
+    public String postEdit(@ModelAttribute("user") User user, @RequestParam String role) {
         Role role1 = new Role(role);
         user.setRoles(Collections.singleton(role1));
         userRepository.save(user);
@@ -62,4 +75,4 @@ public class AdminController {
         userRepository.deleteById(id);
         return "redirect:/admin";
     }
- }
+}
