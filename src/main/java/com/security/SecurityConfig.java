@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,6 +36,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myService).passwordEncoder(passwordEncoder());
     }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//        auth.inMemoryAuthentication()
+//                .withUser("2").password("{noop}2").roles("USER")
+//                .and()
+//                .withUser("1").password("{noop}1").roles("USER", "ADMIN");
+//
+//    }
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//
+//        http
+//                //HTTP Basic authentication
+//                .httpBasic()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/user").hasRole("USER")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .and()
+//                .csrf().disable()
+//                .formLogin().disable();
+//    }
+
+
     @Override
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -45,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Администратор
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/clients/**").access("hasAnyRole('ADMIN')")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 //Доступ разрешен всем пользователей
                 .antMatchers("/", "/resources/**").permitAll()

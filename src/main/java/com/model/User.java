@@ -1,5 +1,6 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -51,6 +52,17 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User(String username, String lastname, int age, String email, String password) {
+        this.username = username;
+        this.lastname = lastname;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id) {
     }
 
     public Set<Role> getRoles() {

@@ -1,7 +1,5 @@
 package com.controllers;
 
-import com.dto.UserDto;
-import com.model.Role;
 import com.model.User;
 import com.repository.RoleRepository;
 import com.repository.UserRepository;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Controller
@@ -34,9 +31,9 @@ public class AdminController {
     }
 
     @GetMapping("/add")
-    public String addGet(ModelMap modelMap) {
-        modelMap.addAttribute("roles", roleRepository.findAll());
-        return "allUsers";
+    public String addGet(User user) {
+//        modelMap.addAttribute("roles", roleRepository.findAll());
+        return "addUser";
     }
 
 //    @PostMapping("/add")
@@ -49,11 +46,11 @@ public class AdminController {
 //        return "redirect:/admin";
 //    }
 
-    @PostMapping("/add")
-    public String addPost(@ModelAttribute UserDto userDto) {
-        userRepository.save(userDto.dtoToUser(userDto));
-        return "redirect:/admin";
-    }
+//    @PostMapping("/add")
+//    public String addPost(@ModelAttribute UserDto userDto) {
+//        userRepository.save(userDto.dtoToUser(userDto));
+//        return "redirect:/admin";
+//    }
 
     @GetMapping("/edit")
     public String getEdit(@RequestParam Long id, ModelMap modelMap) {
@@ -62,17 +59,17 @@ public class AdminController {
         return "allUsers";
     }
 
-    @PostMapping("/edit")
-    public String postEdit(@ModelAttribute("user") User user, @RequestParam String role) {
-        Role role1 = new Role(role);
-        user.setRoles(Collections.singleton(role1));
-        userRepository.save(user);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam Long id) {
-        userRepository.deleteById(id);
-        return "redirect:/admin";
-    }
+//    @PutMapping("/edit")
+//    public String postEdit(@ModelAttribute("user") User user, @RequestParam String role) {
+//        Role role1 = new Role(role);
+//        user.setRoles(Collections.singleton(role1));
+//        userRepository.save(user);
+//        return "redirect:/admin";
+//    }
+//
+//    @GetMapping("/delete")
+//    public String deleteUser(@RequestParam Long id) {
+//        userRepository.deleteById(id);
+//        return "redirect:/admin";
+//    }
 }

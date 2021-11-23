@@ -1,5 +1,6 @@
 package com.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.model.Role;
 import com.model.User;
 import com.repository.RoleRepository;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.HashSet;
 import java.util.Set;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 
     private Long id;
@@ -76,26 +78,6 @@ public class UserDto {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public User dtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setUserName(userDto.getUsername());
-        user.setLastname(userDto.getLastname());
-        user.setAge(userDto.getAge());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        Set<Role> roles = new HashSet();
-        Role role1 = new Role();
-        if (userDto.getRole().equals("ROLE_ADMIN")) {
-            role1.setRole("ROLE_ADMIN");
-            roles.add(role1);
-        } else {
-            role1.setRole("ROLE_USER");
-            roles.add(role1);
-        }
-        user.setRoles(roles);
-        return user;
     }
 
     @Override

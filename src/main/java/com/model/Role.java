@@ -1,5 +1,6 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ public class Role implements GrantedAuthority{
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "roles_id")
     private Long id;
+
 
     private String role;
 
