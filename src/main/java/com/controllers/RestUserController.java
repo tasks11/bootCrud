@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("clients")
-public class RestApplicationController {
+public class RestUserController {
 
     private final UserService userService;
 
-    public RestApplicationController(UserService userService) {
+    public RestUserController(UserService userService) {
         this.userService = userService;
     }
 
